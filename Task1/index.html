@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airbnb </title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Circular:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fab fa-airbnb"></i>
+                <span>airbnb</span>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Start your search">
+                <button class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="nav-right">
+                <a href="#">Become a host</a>
+                <button class="globe-button">
+                    <i class="fas fa-globe"></i>
+                </button>
+                <button class="profile-button">
+                    <i class="fas fa-bars"></i>
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>Find places to stay on Airbnb</h1>
+            <p>Discover entire homes and private rooms perfect for any trip.</p>
+        </section>
+
+        <section class="categories">
+            <h2>Explore nearby</h2>
+            <div class="category-grid" id="categoryGrid"></div>
+        </section>
+
+        <section class="listings">
+            <h2>Places to stay</h2>
+            <div class="listings-grid" id="listingsGrid"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Support</h3>
+                <ul>
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Safety information</a></li>
+                    <li><a href="#">Cancellation options</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Community</h3>
+                <ul>
+                    <li><a href="#">Airbnb.org</a></li>
+                    <li><a href="#">Support refugees</a></li>
+                    <li><a href="#">Combat discrimination</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Hosting</h3>
+                <ul>
+                    <li><a href="#">Try hosting</a></li>
+                    <li><a href="#">AirCover</a></li>
+                    <li><a href="#">Resources</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <div class="mobile-search">
+        <div class="search-bar">
+            <input type="text" placeholder="Where to?">
+            <button class="search-button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </div>
+
+    
+    <script src="script.js"></script>
+</body>
+</html>
