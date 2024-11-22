@@ -1,42 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import { blogApi } from '../../utils/api';
+import { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 import BlogCard from './BlogCard';
-import Loading from '../common/Loading';
+import api from '../../utils/api';
 
-const BlogList = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function BlogList() {
+  const [blogs, setBlogs] = useState([]);
+  const { isAuthenticated, user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchPosts();
+    const fetchBlogs = async () => {
+      try {
+        const response = await api.get('/blogs');
+        setBlogs(response.data);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+      }
+    };
+    fetchBlogs();
   }, []);
 
-  const fetchPosts = async () => {
-    try {
-      const response = await blogApi.getAllPosts();
-      setPosts(Array.isArray(response.data) ? response.data : response.data.posts || []);
-    } catch (err) {
-      console.error('Error fetching posts:', err);
-      setError('Failed to fetch posts');
-      setPosts([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  if (loading) return <Loading />;
-  if (error) return <div className="error-message">{error}</div>;
-  if (!Array.isArray(posts)) return <div className="error-message">Invalid data format</div>;
-  if (posts.length === 0) return <div className="no-posts">No posts found</div>;
+  // const handleCreateBlog = () => {
+  //   if (!isAuthenticated) {
+  //     navigate('/login');
+  //   } else {
+  //     navigate('/blog/create');
+  //   }
+  // };
 
   return (
     <div className="blog-list">
-      {posts.map(post => (
-        <BlogCard key={post._id || post.id} post={post} />
-      ))}
+      <h2>Latest Blogs</h2>
+      <div className="blogs-grid">
+      {blogs.map(blog => (
+          <BlogCard 
+            key={blog._id} 
+            blog={blog} 
+            isAuthor={isAuthenticated && user?.id === blog.author._id}
+          />
+        ))}
+      </div>
     </div>
   );
-};
+}
 
 export default BlogList;

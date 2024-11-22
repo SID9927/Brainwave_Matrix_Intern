@@ -1,123 +1,89 @@
-const Comment = require('../model/Comment');
-const Post = require('../model/Post');
+const Comment = require('../models/Comment');
+const Blog = require('../models/Blog');
 
 exports.createComment = async (req, res) => {
-  try {
-    const { content } = req.body;
-    const postId = req.params.postId;
+    try {
+        const { content } = req.body;
+        const blogId = req.params.blogId;
 
-    const newComment = new Comment({
-      content,
-      author: req.user.id,
-      post: postId
-    });
+        // Verify blog exists
+        const blog = await Blog.findById(blogId);
+        if (!blog) {
+            return res.status(404).json({ message: 'Blog not found' });
+        }
 
-    const savedComment = await newComment.save();
-    
-    // Add comment to post's comments array
-    await Post.findByIdAndUpdate(postId, {
-      $push: { comments: savedComment._id }
-    });
+        const comment = new Comment({
+            content,
+            blog: blogId,
+            user: req.user.id
+        });
 
-    await savedComment.populate('author', 'username');
-    
-    res.status(201).json(savedComment);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+        await comment.save();
+
+        const populatedComment = await Comment.findById(comment._id)
+            .populate('user', 'username')
+            .populate('blog', 'title');
+
+        res.json(populatedComment);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
 };
 
-exports.getComments = async (req, res) => {
-  try {
-    const comments = await Comment.find({ post: req.params.postId })
-      .populate('author', 'username')
-      .populate({
-        path: 'replies',
-        populate: { path: 'author', select: 'username' }
-      })
-      .sort({ createdAt: -1 });
-
-    res.json(comments);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+exports.getCommentsByBlog = async (req, res) => {
+    try {
+        const comments = await Comment.find({ blog: req.params.blogId })
+            .populate('user', 'username')
+            .sort({ createdAt: -1 });
+        res.json(comments);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
+    }
 };
 
 exports.updateComment = async (req, res) => {
-  try {
-    const comment = await Comment.findById(req.params.id);
+    try {
+        const { content } = req.body;
+        let comment = await Comment.findById(req.params.commentId);
 
-    if (!comment) {
-      return res.status(404).json({ message: 'Comment not found' });
+        if (!comment) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+
+        if (comment.user.toString() !== req.user.id) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        comment.content = content;
+        await comment.save();
+
+        const updatedComment = await Comment.findById(comment._id)
+            .populate('user', 'username')
+            .populate('blog', 'title');
+
+        res.json(updatedComment);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error' });
     }
-
-    // Check if user is the author
-    if (comment.author.toString() !== req.user.id) {
-      return res.status(403).json({ message: 'User not authorized' });
-    }
-
-    comment.content = req.body.content;
-    await comment.save();
-    
-    await comment.populate('author', 'username');
-
-    res.json(comment);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
 };
 
 exports.deleteComment = async (req, res) => {
-  try {
-    const comment = await Comment.findById(req.params.id);
+    try {
+        const comment = await Comment.findById(req.params.commentId);
 
-    if (!comment) {
-      return res.status(404).json({ message: 'Comment not found' });
+        if (!comment) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+
+        if (comment.user.toString() !== req.user.id) {
+            return res.status(401).json({ message: 'Not authorized' });
+        }
+
+        await Comment.findByIdAndDelete(req.params.commentId);
+        res.status(200).json({ message: 'Comment deleted successfully' });
+    } catch (err) {
+        console.error('Delete Comment Error:', err); // Log the error
+        res.status(500).json({ message: 'Server error', error: err.message });
     }
-
-    // Check if user is the author
-    if (comment.author.toString() !== req.user.id) {
-      return res.status(403).json({ message: 'User not authorized' });
-    }
-
-    // Remove comment from post's comments array
-    await Post.findByIdAndUpdate(comment.post, {
-      $pull: { comments: comment._id }
-    });
-
-    await comment.deleteOne();
-    res.json({ message: 'Comment removed' });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
 };
 
-exports.replyToComment = async (req, res) => {
-  try {
-    const { content } = req.body;
-    const parentComment = await Comment.findById(req.params.commentId);
-
-    if (!parentComment) {
-      return res.status(404).json({ message: 'Parent comment not found' });
-    }
-
-    const reply = new Comment({
-      content,
-      author: req.user.id,
-      post: parentComment.post,
-      parentComment: parentComment._id
-    });
-
-    const savedReply = await reply.save();
-    
-    // Add reply to parent comment's replies array
-    parentComment.replies.push(savedReply._id);
-    await parentComment.save();
-
-    await savedReply.populate('author', 'username');
-    
-    res.status(201).json(savedReply);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};

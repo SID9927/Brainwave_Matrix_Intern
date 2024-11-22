@@ -1,39 +1,44 @@
-import React, { useState } from 'react';
-import { blogApi } from '../../utils/api';
-import { useAuth } from '../../contexts/AuthContext';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
+import api from '../../utils/api';
 
-const CommentForm = ({ postId, onCommentAdded }) => {
-  const { user } = useAuth();
+function CommentForm({ blogId }) {
   const [content, setContent] = useState('');
-  const [error, setError] = useState('');
+  const { isAuthenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isAuthenticated) {
+      navigate('/login');
+      return;
+    }
     try {
-      await blogApi.addComment(postId, { content });
+      const response = await api.post(`/comments/blog/${blogId}`, { content });
       setContent('');
-      onCommentAdded();
-    } catch (err) {
-      setError('Failed to add comment');
+      window.location.reload(); // Refresh comments
+    } catch (error) {
+      console.error('Error adding comment:', error);
     }
   };
 
-  if (!user) {
-    return <p>Please login to comment</p>;
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="comment-form">
-      <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="Write your comment..."
-        required
-      />
-      {error && <div className="error-message">{error}</div>}
-      <button type="submit">Post Comment</button>
-    </form>
+    <div className="comment-form">
+      <h3>Add a Comment</h3>
+      <form onSubmit={handleSubmit}>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder={isAuthenticated ? "Write your comment..." : "Please login to comment"}
+          disabled={!isAuthenticated}
+        />
+        <button type="submit" disabled={!isAuthenticated}>
+          {isAuthenticated ? "Post Comment" : "Login to Comment"}
+        </button>
+      </form>
+    </div>
   );
-};
+}
 
 export default CommentForm;

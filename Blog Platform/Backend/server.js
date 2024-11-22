@@ -1,41 +1,21 @@
-const express = require("express");
-const cors = require("cors");
-const dotenv = require("dotenv");
-const path = require("path");
-const mongoose = require("mongoose");
-
-dotenv.config();
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
+require('dotenv').config();
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Test DB Connection
-mongoose.connection.on('connected', () => {
-    console.log('Mongoose connected to MongoDB');
-  });
-  
-  mongoose.connection.on('error', (err) => {
-    console.log('Mongoose connection error:', err);
-  });
-
-// Database connection
-require('./config/db')();
+// Connect Database
+connectDB();
 
 // Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/posts', require('./routes/posts'));
-app.use('/api/comments', require('./routes/comment'));
-
-// Basic test route
-app.get('/test', (req, res) => {
-    res.json({ message: 'Backend is working!' });
-  });
+app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/blogs', require('./routes/blogRoutes'));
+app.use('/api/comments', require('./routes/commentRoutes'));
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
