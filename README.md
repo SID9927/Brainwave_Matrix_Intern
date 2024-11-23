@@ -4,7 +4,14 @@ This repository contains the projects and tasks completed during my web developm
 
 ## Projects Overview
 
-### 1. Blog Platform
+### 1. AirBnB Landing Page Clone
+A responsive landing page implementation featuring:
+- Property listings display
+- Categories section
+- Dynamic content rendering
+- Modern UI/UX design
+  
+### 2. Blog Platform
 A full-stack blogging application with the following features:
 - User authentication (register/login)
 - Blog post creation, reading, updating, and deletion
@@ -18,13 +25,6 @@ A full-stack blogging application with the following features:
 - Database: MongoDB
 - Authentication: JWT, bcrypt
 - API: RESTful architecture
-
-### 2. AirBnB Landing Page Clone
-A responsive landing page implementation featuring:
-- Property listings display
-- Categories section
-- Dynamic content rendering
-- Modern UI/UX design
 
 ## Technical Implementation
 
@@ -65,12 +65,15 @@ Create .env file in Backend directory
 Add MongoDB URI and JWT secret
 
 5. Run the application:
-```
+
 # Start backend server
+```
 cd Backend
 npm start
+```
 
 # Start frontend development server
+```
 cd frontend
 npm start
 ```
