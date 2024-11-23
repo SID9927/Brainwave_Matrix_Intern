@@ -1,34 +1,3 @@
-/* .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.blogs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.blog-card {
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
-}
-
-.login-form,
-.register-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.blog-detail {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-} */
 
 /* Navbar Styles */
 .navbar {
@@ -242,7 +211,7 @@
     grid-template-columns: 1fr;
     text-align: center;
   }
-  
+
   .social-icons {
     justify-content: center;
     margin-top: 15px;

@@ -547,3 +547,62 @@ button:hover {
   background: var(--dark-teal);
   transform: translateY(-2px);
 }
+
+ /* formatting tools  */
+ .formatting-tools {
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+  margin: 5px 0;
+  padding-right: 5px;
+}
+
+.format-btn {
+  width: 25px;
+  height: 25px;
+  padding: 2px;
+  background: var(--muted-teal);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.format-btn.active {
+  background: var(--dark-teal);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.format-btn:hover {
+  background: var(--dark-teal);
+  transform: translateY(-2px);
+}
+
+.rich-text-editor {
+  min-height: 300px;
+  padding: 12px;
+  border: 2px solid var(--muted-teal);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: white;
+  overflow-y: auto;
+  transition: border-color 0.3s ease;
+}
+
+.rich-text-editor:empty:before {
+  content: attr(placeholder);
+  color: #666;
+}
+
+.rich-text-editor:focus {
+  outline: none;
+  border-color: var(--terracotta);
+  box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.1);
+}
