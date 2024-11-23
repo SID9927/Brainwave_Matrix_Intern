@@ -1,4 +1,3 @@
-import { FaLinkedin, FaGlobe, FaEnvelope } from "react-icons/fa";
 import "./about.css";
 
 function About() {
