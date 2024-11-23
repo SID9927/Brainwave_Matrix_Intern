@@ -13,7 +13,11 @@ function BlogList() {
     const fetchBlogs = async () => {
       try {
         const response = await api.get('/blogs');
-        setBlogs(response.data);
+        // Sort blogs by creation date, newest first
+        const sortedBlogs = response.data.sort((a, b) => 
+          new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setBlogs(sortedBlogs);
       } catch (error) {
         console.error('Error fetching blogs:', error);
       }
