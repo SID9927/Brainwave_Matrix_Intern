@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
 function Login() {
@@ -9,12 +9,14 @@ function Login() {
   });
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
+  const location = useLocation();
+  const from = location.state?.from || '/';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login(formData);
-      navigate('/');
+      navigate(from);
     } catch (error) {
       console.error('Login error:', error);
     }

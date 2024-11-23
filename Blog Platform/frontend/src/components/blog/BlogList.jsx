@@ -21,14 +21,6 @@ function BlogList() {
     fetchBlogs();
   }, []);
 
-  // const handleCreateBlog = () => {
-  //   if (!isAuthenticated) {
-  //     navigate('/login');
-  //   } else {
-  //     navigate('/blog/create');
-  //   }
-  // };
-
   return (
     <div className="blog-list">
       <h2>Latest Blogs</h2>

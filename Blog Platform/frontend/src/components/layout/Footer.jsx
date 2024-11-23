@@ -1,3 +1,5 @@
+import { FaLinkedin, FaGithub } from 'react-icons/fa';
+
 function Footer() {
   return (
     <footer className="footer">
@@ -18,6 +20,14 @@ function Footer() {
           <h3>Contact</h3>
           <p>Email: 5065sid@gmail.com</p>
           <p>Follow us on social media</p>
+          <div className="social-icons">
+            <a href="https://www.linkedin.com/in/siddharth-in/" target="_blank" rel="noopener noreferrer">
+              <FaLinkedin className="social-icon" />
+            </a>
+            <a href="https://github.com/SID9927" target="_blank" rel="noopener noreferrer">
+              <FaGithub className="social-icon" />
+            </a>
+          </div>
         </div>
       </div>
       <div className="footer-bottom">

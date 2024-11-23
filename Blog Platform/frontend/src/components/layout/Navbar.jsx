@@ -1,10 +1,11 @@
-import { useContext, useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
+import { useContext, useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 function Navbar() {
   const { isAuthenticated, logout, user } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -15,13 +16,17 @@ function Navbar() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    // If on login, register, or create blog page, navigate to home
+    if (["/login", "/register", "/blog/create"].includes(location.pathname)) {
+      navigate("/");
+    }
+    // Otherwise stay on current page
     setShowDropdown(false);
   };
 
@@ -31,17 +36,27 @@ function Navbar() {
         <Link to="/">Blog Platform</Link>
       </div>
       <div className="nav-links">
-        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
         {isAuthenticated && (
           <>
-            <Link to="/blog/create" className="nav-link create-blog-link">Create Blog</Link>
+            <Link to="/blog/create" className="nav-link create-blog-link">
+              Create Blog
+            </Link>
             <div className="user-dropdown" ref={dropdownRef}>
-              <span className="username" onClick={() => setShowDropdown(!showDropdown)}>
+              <span
+                className="username"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
                 {user?.username}
               </span>
               {showDropdown && (
                 <div className="dropdown-menu">
-                  <button onClick={handleLogout} className="dropdown-item">
+                  <Link to="/my-blogs" className="dropdown-item">
+                    My Blogs
+                  </Link>
+                  <button className="dropdown-item" onClick={handleLogout} >
                     Logout
                   </button>
                 </div>
@@ -51,8 +66,12 @@ function Navbar() {
         )}
         {!isAuthenticated && (
           <>
-            <Link to="/login" className="nav-link">Login</Link>
-            <Link to="/register" className="nav-link">Register</Link>
+            <Link to="/login" state={{ from: "/" }} className="nav-link">
+              Login
+            </Link>
+            <Link to="/register" className="nav-link">
+              Register
+            </Link>
           </>
         )}
       </div>

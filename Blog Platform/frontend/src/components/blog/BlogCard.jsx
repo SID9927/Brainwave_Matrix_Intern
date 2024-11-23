@@ -9,13 +9,13 @@ function BlogCard({ blog }) {
   return (
     <div className="blog-card">
       <h3>{blog.title}</h3>
-      <p className="author">By {blog.author.username}</p>
       <p className="preview">{blog.content.substring(0, 150)}...</p>
       <div className="blog-card-footer">
         <Link to={`/blog/${blog._id}`} className="read-more">
           Read More
         </Link>
       </div>
+      <p className="author">By {blog.author.username}</p>
     </div>
   );
 }

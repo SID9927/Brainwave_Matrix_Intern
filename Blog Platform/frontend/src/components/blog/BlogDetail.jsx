@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import CommentList from '../comments/CommentList';
-import CommentForm from '../comments/CommentForm';
+// import CommentForm from '../comments/CommentForm';
 import api from '../../utils/api';
 
 function BlogDetail() {
@@ -72,13 +72,13 @@ function BlogDetail() {
         
         <div className="comments-section">
             <CommentList blogId={id} />
-            {isAuthenticated ? (
+            {/* {isAuthenticated ? (
                 <CommentForm blogId={id} />
             ) : (
                 <div className="login-prompt">
                     <p>Please <Link to="/login">login</Link> to comment on this blog</p>
                 </div>
-            )}
+            )} */}
         </div>
     </div>
     );

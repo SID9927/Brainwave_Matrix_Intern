@@ -6,10 +6,13 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import BlogList from './components/blog/BlogList';
 import BlogDetail from './components/blog/BlogDetail';
+import MyBlogs from './components/blog/MyBlogs';
 import CreateBlog from './components/blog/CreateBlog';
 import EditBlog from './components/blog/EditBlog';
 import { AuthProvider } from './context/AuthContext';
 import './components/styles/components.css';
+import About from './components/about/About';
+
 
 
 
@@ -27,6 +30,8 @@ function App() {
               <Route path="/blog/create" element={<CreateBlog />} />
               <Route path="/blog/:id" element={<BlogDetail />} />
               <Route path="/blog/edit/:id" element={<EditBlog />} />
+              <Route path="/my-blogs" element={<MyBlogs />} />
+              <Route path="/about" element={<About />} />
             </Routes>
           </main>
           <Footer />
