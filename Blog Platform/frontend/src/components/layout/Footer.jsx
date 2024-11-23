@@ -1,6 +1,11 @@
 import { FaLinkedin, FaGithub } from 'react-icons/fa';
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 function Footer() {
+  const { isAuthenticated } = useContext(AuthContext);
+
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -11,9 +16,11 @@ function Footer() {
         <div className="footer-section">
           <h3>Quick Links</h3>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/blog/create">Create Blog</a></li>
-            <li><a href="/about">About</a></li>
+            <li><Link to="/">Home</Link></li>
+            {isAuthenticated && (
+              <li><Link to="/my-blogs">My Blogs</Link></li>
+            )}
+            <li><Link to="/about">About</Link></li>
           </ul>
         </div>
         <div className="footer-section">

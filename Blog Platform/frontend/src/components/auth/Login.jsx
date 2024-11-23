@@ -1,24 +1,27 @@
-import { useState, useContext } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
+import { useState, useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 function Login() {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
   const { login } = useContext(AuthContext);
   const location = useLocation();
-  const from = location.state?.from || '/';
+  const from = location.state?.from || "/";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setErrorMessage("");
       await login(formData);
       navigate(from);
     } catch (error) {
-      console.error('Login error:', error);
+      setErrorMessage("Please check your email and password");
+      console.error("Login error:", error);
     }
   };
 
@@ -33,7 +36,9 @@ function Login() {
               type="email"
               placeholder="Enter your email"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               required
             />
           </div>
@@ -43,14 +48,21 @@ function Login() {
               type="password"
               placeholder="Enter your password"
               value={formData.password}
-              onChange={(e) => setFormData({...formData, password: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
               required
             />
           </div>
-          <button type="submit" className="auth-button">Login</button>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
+          <button type="submit" className="auth-button">
+            Login
+          </button>
         </form>
         <div className="auth-link">
-          <p>Don't have an account? <Link to="/register">Register here</Link></p>
+          <p>
+            Don't have an account? <Link to="/register">Register here</Link>
+          </p>
         </div>
       </div>
     </div>

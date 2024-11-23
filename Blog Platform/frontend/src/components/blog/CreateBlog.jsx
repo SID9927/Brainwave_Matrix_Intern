@@ -31,7 +31,7 @@ function CreateBlog() {
         ...formData,
         content: contentRef.current.innerHTML
       });
-      navigate(`/blog/${response.data._id}`);
+      navigate('/');
     } catch (error) {
       console.error('Error creating blog:', error);
     }
