@@ -34,7 +34,7 @@ This is the backend for a blogging application built with Node.js, Express, and 
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/S/backend.git
+   git clone 
    ```
 
 2. Navigate to the project directory:
