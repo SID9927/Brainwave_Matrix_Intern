@@ -4,7 +4,7 @@ This repository contains the projects and tasks completed during my web developm
 
 ## Projects Overview
 
-### 1. AirBnB Landing Page Clone
+### 1. AirBnB Landing Page 
 A responsive landing page implementation featuring:
 - Property listings display
 - Categories section
@@ -78,15 +78,14 @@ cd frontend
 npm start
 ```
 ### Skills Demonstrated
-• Full-stack web development
-• RESTful API design
-• Database modeling
-• Authentication & Authorization
-• Frontend development
-• Responsive design
-• Version control with Git
+- Full-stack web development
+- RESTful API design
+- Database modeling
+- Authentication & Authorization
+- Frontend development
+- Responsive design
 
 ## Contact
-• GitHub: [@SID9927](https://github.com/SID9927)
+- GitHub: [@SID9927](https://github.com/SID9927)
 
 This README effectively showcases your internship work, technical skills, and project implementations. It provides clear setup instructions and highlights the key features of your projects.
